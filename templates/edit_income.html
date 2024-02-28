@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Sửa Thu nhập{% endblock title %}
+{% block content %}
+<div class="content-wrapper">
+  <div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Trang sửa thông tin</h4>
+          <form class="forms-sample"  method="POST" action="/income/edit/{{income.id}}">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="exampleInputUsername1">Số tiền</label>
+              <input name="amount" type="text" class="form-control" placeholder="Nhập tiền" value="{{income.amount}}">
+            </div>
+            <div class="form-group">
+              <label for="exampleSelectGender">Nguồn</label>
+                <select name="source" class="form-control" value="{{income.source}}">
+                  <option value="0">Lương</option>
+                  <option value="1">Kinh Doanh</option>
+                  <option value="2">Phụ Thu Nhập</option>
+                  <option value="3">Khác</option>
+                </select>
+            </div>
+            <div class="form-group">
+              <label>Chú thích</label>
+              <input name="description" type="text" class="form-control" placeholder="Chú thích" value="{{income.description}}">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputUsername1">Ngày tạo</label>
+              <div id="datepicker-income-table" class="input-group date datepicker navbar-date-picker">
+                <span class="input-group-addon input-group-prepend border-right">
+                  <span class="icon-calendar input-group-text calendar-icon"></span>
+                </span>
+                <input name="date" type="text" class="form-control" value="{{income.date}}">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary me-2">Xác nhận</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var datepicker = document.querySelector("#datepicker-income-table");
+  $(datepicker).datepicker({
+      format: "dd/mm/yyyy",
+      todayHighlight: true,
+      autoclose: true,
+    });
+});
+</script>
+  {% endblock content %}

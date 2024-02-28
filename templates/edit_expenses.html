@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Sửa Chi tiêu{% endblock title %}
+{% block content %}
+<div class="content-wrapper">
+  <div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Trang sửa thông tin</h4>
+          <form class="forms-sample"  method="POST" action="/expenses/edit/{{expenses.id}}">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="exampleInputUsername1">Số tiền</label>
+              <input name="amount" type="text" class="form-control" placeholder="Nhập tiền" value="{{expenses.amount}}">
+            </div>
+            <div class="form-group">
+              <label for="exampleSelectGender">Nguồn</label>
+                <select name="source" class="form-control" value="{{expenses.source}}">
+                  <option value="0">Ăn uống</option>
+                  <option value="1">Quần áo</option>
+                  <option value="2">Du lịch và giải trí</option>
+                  <option value="3">Khác</option>
+                </select>
+            </div>
+            <div class="form-group">
+              <label>Chú thích</label>
+              <input name="description" type="text" class="form-control" placeholder="Chú thích" value="{{expenses.description}}">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputUsername1">Ngày tạo</label>
+              <div id="datepicker-expenses-table" class="input-group date datepicker navbar-date-picker">
+                <span class="input-group-addon input-group-prepend border-right">
+                  <span class="icon-calendar input-group-text calendar-icon"></span>
+                </span>
+                <input name="date" type="text" class="form-control" value="{{expenses.date}}">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary me-2">Xác nhận</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var datepicker = document.querySelector("#datepicker-expenses-table");
+  $(datepicker).datepicker({
+      format: "dd/mm/yyyy",
+      todayHighlight: true,
+      autoclose: true,
+    });
+});
+</script>
+  {% endblock content %}

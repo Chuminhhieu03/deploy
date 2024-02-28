@@ -1,0 +1,48 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block title %}Feedback{% endblock title %} 
+{% block content %}
+
+<div class="content-wrapper">
+  <div class="row">
+    <div class="offset-margin col-lg-8 col-md-8 col-sm-12 col-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Ý kiến khách hàng</h4>
+          <p class="card-description">
+            Khách hàng có thể gửi các ý kiến 
+            phản hồi tại đây.
+          </p>
+          <form class="forms-sample" method="POST" action="/user/feedback/">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="exampleInputUsername1">Tiêu đề</label>
+              <input
+                name="title"
+                type="text"
+                class="form-control form-control-lg"
+                id="exampleInputUsername1"
+                placeholder="Tiêu đề cho phản hồi"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">Nội dung</label>
+              <textarea
+                name="content"
+                class="form-control"
+                id="exampleFormControlTextarea1"
+                rows="5"
+                placeholder="Nội dung phản hồi"
+                required
+                style="height: 100px;"
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary me-2">Xác nhận</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+{% endblock content %}

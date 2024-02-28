@@ -1,0 +1,13 @@
+.offset-margin {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.income-chart-page .datepicker span, .income-chart-page .datepicker input, .profile-user-page .datepicker span, .expense-chart-page .datepicker input, .expense-chart-page .datepicker span{
+  color: black;
+  background: white;
+}
+
+.income-chart-page .datepicker span span, .profile-user-page .datepicker span span, .expense-chart-page .datepicker span span {
+  border: none;
+}

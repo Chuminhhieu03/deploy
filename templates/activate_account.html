@@ -1,0 +1,8 @@
+{% autoescape off %}
+
+Hi {{user.username}}
+Vui lòng nhanh chóng kích hoạt tài khoản của bạn bằng cách nhấn vào đường link dưới đây:
+
+http://{{domain}}{% url 'activate' uidb64=uid token=token %}
+
+{% endautoescape %}

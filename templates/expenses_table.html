@@ -1,0 +1,142 @@
+{% extends 'base.html' %} 
+{% load humanize %}
+{% load static %} 
+{% block title%}Bảng Chi tiêu{%endblock title %} 
+{% block content %}
+
+<div class="content-wrapper">
+  <div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Bảng Chi tiêu</h4>
+          <div class="row">
+            <div
+              class="btn-wrapper col-md-12 d-flex justify-content-end align-center"
+              style="align-items: baseline"
+            >
+              <form method="GET" action="{% url 'expenses' %}" class="col-md-4 btn-wrapper d-flex justify-content-end align-center" style="align-items: baseline">
+                <input
+                  type="text"
+                  name="q"
+                  class="form-control"
+                  id="searchField"
+                  placeholder="Tìm kiếm"
+                  style="height: 100%;"
+                />
+                <button class="btn btn-info align-items-center">
+                  <i class="mdi mdi-magnify"></i>
+                </button>
+              </form>
+              <button id="expenses_import_btn" class="btn btn-otline-dark align-items-center">
+                <i class="icon-upload"></i> Import
+              </button>
+              <form action="/expenses/import_excel" method="POST" id="expenses_import_form" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input name="file" type="file" id="fileInput" accept=".xls,.xlsx" style="display: none;">
+              </form>
+              <a href="/expenses/create_pdf" class="btn btn-otline-dark">
+                <i class="icon-download"></i> Export
+              </a>
+              <a href="/expenses/add" class="btn btn-primary text-white me-0">
+                <i class="mdi mdi-plus-circle-outline"></i> Thêm
+              </a>
+            </div>
+          </div>
+          <div class="table-responsive mt-4">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Số tiền</th>
+                  <th>Nguồn</th>
+                  <th>Ngày tạo</th>
+                  <th>Ghi chú</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for expenses in page_obj %}
+                <tr>
+                  <td>{{ expenses.amount|floatformat:"0"|intcomma }} VNĐ</td>
+                  <td>
+                    {% if expenses.source == "0" %} 
+                        Ăn uống
+                    {% elif expenses.source == "1" %} 
+                        Quần áo 
+                    {% elif expenses.source == "2" %} 
+                        Du lịch và giải trí
+                    {% else %} 
+                        Khác 
+                    {% endif %}
+                  </td>
+                  <td>{{ expenses.date|date:"d/m/Y" }}</td>
+                  <td>{{expenses.description}}</td>
+                  <td>
+                    <a
+                      href="/expenses/edit/{{expenses.id}}"
+                      class="btn btn-outline-dark align-items-center me-2"
+                    >
+                      <i
+                        class="mdi mdi-grease-pencil"
+                        style="vertical-align: middle"
+                      ></i>
+                    </a>
+                      <button
+                        type="button"
+                        class="delete_expenses_btn btn btn-outline-dark align-items-center me-2"
+                      >
+                        <i
+                          class="mdi mdi-delete"
+                          style="vertical-align: middle"
+                        ></i>
+                      </button>
+                  </td>
+                </tr>
+                <form class="form_delete_expenses" method="POST" action="/expenses/delete/{{expenses.id}}">
+                  {% csrf_token %}
+                </form>
+                {% endfor %}
+              </tbody>
+            </table>
+            <div class="pagination">
+              <span class="step-links">
+                  {% if page_obj.has_previous %}
+                      <a href="?page=1">&laquo; first</a>
+                      <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                  {% endif %}
+          
+                  <span class="current">
+                      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                  </span>
+          
+                  {% if page_obj.has_next %}
+                      <a href="?page={{ page_obj.next_page_number }}">next</a>
+                      <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                  {% endif %}
+              </span>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  // delete expenses
+  document.addEventListener("DOMContentLoaded", function () {
+    var delete_expenses_btn = document.getElementsByClassName("delete_expenses_btn");
+    var form_delete_expenses = document.getElementsByClassName("form_delete_expenses");
+    console.log(form_delete_expenses.length);
+    for (let i = 0; i < delete_expenses_btn.length; i++) {
+      delete_expenses_btn[i].addEventListener("click", function () {
+        var result = confirm("Bạn có chắc chắn muốn xóa thu nhập này không?");
+        if (result) {
+          form_delete_expenses[i].submit();
+        }
+      });
+    }
+  });
+</script>
+<script src="{% static 'js/hieujs/expenses_import.js' %}"></script>
+{% endblock content %}
+

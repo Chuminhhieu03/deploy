@@ -1,0 +1,123 @@
+{% extends 'base.html' %} {% load static %} {% block title %}Nâng cấp tài
+khoản{% endblock title %} {% block content %}
+<div class="content-wrapper">
+  <div class="upgrade-page">
+    <div class="section-one">
+      <div class="row">
+        <div
+          class="offset-margin col-lg-12 col-md-8 col-sm-12 col-12 grid-margin stretch-card"
+        >
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Nâng cấp tài khoản</h4>
+              <p class="card-description">
+                Bắt đầu quản lý tài chính của bạn với phiên bản Premium
+              </p>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Miễn phí</th>
+                    <th>Nâng cấp</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>In báo cáo thu chi</td>
+                    <td>
+                      <img
+                        src="{% static '/images/upgrade-page/image-2.svg' %}"
+                        alt="Image 1"
+                      />
+                    </td>
+                    <td>
+                      <img
+                        src="{% static '/images/upgrade-page/image-1.svg' %}"
+                        alt="Image 1"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Dễ dàng tải dữ liệu lên bằng excel</td>
+                    <td>
+                      <img
+                        src="{% static '/images/upgrade-page/image-2.svg' %}"
+                        alt="Image 2"
+                      />
+                    </td>
+                    <td>
+                      <img
+                        src="{% static '/images/upgrade-page/image-1.svg' %}"
+                        alt="Image 1"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Không có quảng cáo</td>
+                    <td>
+                      <img
+                        src="{% static '/images/upgrade-page/image-2.svg' %}"
+                        alt="Image 2"
+                      />
+                    </td>
+                    <td>
+                      <img
+                        src="{% static '/images/upgrade-page/image-1.svg' %}"
+                        alt="Image 1"
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-two">
+      <div class="row">
+        <div
+          class="offset-margin col-lg-12 col-md-8 col-sm-12 col-12 grid-margin stretch-card"
+        >
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">
+                Bạn có muốn nâng cấp tài khoản cho bạn không
+              </h4>
+              <p class="card-description">Xin hãy xác nhận thông tin của bạn</p>
+              <form class="forms-sample" method="POST" action="/user/upgrade/">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="username">Tài khoản</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="username"
+                    value="{{request.user.username}}"
+                    disabled
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    value="{{request.user.email}}"
+                    disabled
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary me-2">
+                  Xác nhận
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

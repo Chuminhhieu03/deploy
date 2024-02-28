@@ -1,0 +1,297 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% load humanize %}
+{% block title %}Trang chủ{%endblock title %} 
+{% block content %}
+<div class="content-wrapper">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="home-tab">
+        <div
+          class="d-sm-flex align-items-center justify-content-between border-bottom"
+        >
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+              <a
+                class="nav-link active ps-0"
+                id="home-tab"
+                data-bs-toggle="tab"
+                href="#overview"
+                role="tab"
+                aria-controls="overview"
+                aria-selected="true"
+                >Tổng quan</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="tab-content tab-content-basic">
+          <div
+            class="tab-pane fade show active"
+            id="overview"
+            role="tabpanel"
+            aria-labelledby="overview"
+          >
+            <div class="row">
+              <div class="col-sm-12">
+                <div
+                  class="statistics-details d-flex align-items-center justify-content-between"
+                >
+                  <div>
+                    <p class="statistics-title">Tổng thu nhập tháng này</p>
+                    <h3 class="rate-percentage" id="hp_sumIncome">
+                      {{sumIncome | intcomma}} VND
+                    </h3>
+                    {% if percentIncome < 0 %}
+                    <p class="text-danger d-flex">
+                      <i class="mdi mdi-menu-down"></i
+                      ><span id="hp_percentIncome"
+                        >{{percentIncome | floatformat:"2" }} % So với tháng trước</span
+                      >
+                    </p>
+                    {% else %}
+                    <p class="text-success d-flex">
+                      <i class="mdi mdi-menu-up"></i
+                      ><span id="hp_percentIncome"
+                        >{{percentIncome | floatformat:"2"}}% So với tháng trước</span
+                      >
+                    </p>
+                    {% endif %}
+                  </div>
+                  <div>
+                    <p class="statistics-title">Tổng chi tiêu tháng này</p>
+                    <h3 class="rate-percentage" id="hp_sumExpense">
+                      {{sumExpense | intcomma}} VND
+                    </h3>
+                    {% if percentExpense < 0 %}
+                    <p class="text-danger d-flex">
+                      <i class="mdi mdi-menu-down"></i
+                      ><span id="hp_percentExpense"
+                        >{{percentExpense | floatformat:"2"}}% So với tháng trước</span
+                      >
+                    </p>
+                    {% else %}
+                    <p class="text-success d-flex">
+                      <i class="mdi mdi-menu-up"></i
+                      ><span id="hp_percentExpense"
+                        >{{percentExpense | floatformat:"2"}}% So với tháng trước</span
+                      >
+                    </p>
+                    {% endif %}
+                  </div>
+                  <div>
+                    <p class="statistics-title">Lợi nhuận tháng này</p>
+                    <h3 class="rate-percentage" id="hp_sumProfit">
+                      {{sumProfit | intcomma}} VND
+                    </h3>
+                    {% if percentProfit < 0 %}
+                    <p class="text-danger d-flex">
+                      <i class="mdi mdi-menu-down"></i
+                      ><span id="hp_percentProfit"
+                        >{{percentProfit|floatformat:"2"}}% So với tháng trước</span
+                      >
+                    </p>
+                    {% else %}
+                    <p class="text-success d-flex">
+                      <i class="mdi mdi-menu-up"></i
+                      ><span id="hp_percentProfit"
+                        >{{percentProfit|floatformat:"2"}}% So với tháng trước</span
+                      >
+                    </p>
+                    {% endif %}
+                  </div>
+                  <div>
+                    <p class="statistics-title">Bạn có đang là VIP</p>
+                    {% if request.user.userupgrade.upgrade == False %}
+                    <h3 class="rate-percentage">Không</h3>
+                    <p class="text-danger d-flex">
+                      <i class="mdi mdi-menu-down"></i
+                      ><span>Hãy nâng cấp tài khoản nào</span>
+                    </p>
+                    {% else %}
+                    <h3 class="rate-percentage">Có</h3>
+                    <p class="text-success d-flex">
+                      <i class="mdi mdi-menu-up"></i
+                      ><span>Chúc mừng bạn đã là VIP</span>
+                    </p>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12 d-flex flex-column">
+                <div class="row flex-grow">
+                  <div
+                    class="col-12 col-lg-4 col-lg-12 grid-margin stretch-card"
+                  >
+                    <div class="card card-rounded">
+                      <div class="card-body">
+                        <div
+                          class="d-sm-flex justify-content-between align-items-start"
+                        >
+                          <div>
+                            <h4 class="card-title card-title-dash">
+                              Đồ thị biểu diễn thu chi của Năm
+                            </h4>
+                          </div>
+                          <div id="performance-line-legend"></div>
+                        </div>
+                        <div class="mt-5 homepageLineMonth">
+                          <canvas id="lineChartYear"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12 d-flex flex-column">
+                <div class="row flex-grow">
+                  <div
+                    class="col-12 col-lg-4 col-lg-12 grid-margin stretch-card"
+                  >
+                    <div class="card card-rounded">
+                      <div class="card-body">
+                        <div
+                          class="d-sm-flex justify-content-between align-items-start"
+                        >
+                          <div>
+                            <h4 class="card-title card-title-dash">
+                              Đồ thị biểu diễn thu chi của tháng
+                            </h4>
+                          </div>
+                          <div id="performance-line-legend"></div>
+                        </div>
+                        <div class="mt-5 homepageLineMonth">
+                          <canvas
+                            id="lineChartMonth"
+                            class="chartjs-render-monitor"
+                          ></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 grid-margin stretch-card">
+                <div class="card card-rounded">
+                  <div class="card-body">
+                    <div
+                      class="d-sm-flex justify-content-between align-items-start"
+                    >
+                      <div>
+                        <h4 class="card-title card-title-dash">
+                          Bảng chuyển đổi tiền tệ giữa các quốc gia
+                        </h4>
+                        <p class="card-subtitle card-subtitle-dash">
+                          Đây chỉ mang tính chất tham khảo của 5 quốc gia có ảnh
+                          hưởng
+                        </p>
+                      </div>
+                    </div>
+                    <div class="table-responsive mt-1">
+                      <table class="table select-table">
+                        <thead>
+                          <tr>
+                            <th>Quốc gia</th>
+                            <th>Đơn vị tiền tệ</th>
+                            <th>Đổi sang Việt Nam Đông</th>
+                            <th>Chú thích</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <div class="d-flex">
+                                <div>
+                                  <h6>Hoa Kỳ</h6>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <h6>1 USD</h6>
+                            </td>
+                            <td>
+                              <h6>24.564 VND</h6>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <div class="d-flex">
+                                <div>
+                                  <h6>Trung Quốc</h6>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <h6>1 CNY</h6>
+                            </td>
+                            <td>
+                              <h6>3.414 VND</h6>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <div class="d-flex">
+                                <div>
+                                  <h6>Anh</h6>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <h6>1 GBP</h6>
+                            </td>
+                            <td>
+                              <h6>30.004 VND</h6>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <div class="d-flex">
+                                <div>
+                                  <h6>Nhật Bản</h6>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <h6>1 JPY</h6>
+                            </td>
+                            <td>
+                              <h6>31.004 VND</h6>
+                            </td>
+                          </tr>
+                          <!-- <tr>
+                            <td>
+                              <div class="d-flex ">
+                                <div>
+                                  <h6>Hoa Kỳ</h6>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <h6>1 USD</h6>
+                            </td>
+                            <td>
+                              <h6>24.564 VND</h6>
+                            </td>
+                          </tr> -->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <input name="username" id="hp_username" type="hidden" value="{{request.user.username}}">
+</div>
+<script src="{% static 'js/hieujs/homepage_chart.js' %}"></script>
+{% endblock content %} ```

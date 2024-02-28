@@ -1,0 +1,103 @@
+{% extends 'base.html' %} {% load static %} {% block title %}Xác nhận thanh
+toán{% endblock title %} {% block content %}
+<div class="content-wrapper">
+  <div class="upgrade-checkout-page">
+    <div class="payment-detail">
+      <div class="row">
+        <div
+          class="offset-margin col-lg-12 col-md-8 col-sm-12 col-12 grid-margin stretch-card"
+        >
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Thông tin thanh toán</h4>
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td>Họ và tên</td>
+                    <td>{{request.user.first_name}}</td>
+                  </tr>
+                  <tr>
+                    <td>Số điện thoại</td>
+                    <td>{{request.user.userprofile.phone}}</td>
+                  </tr>
+                  <tr>
+                    <td>Email</td>
+                    <td>{{request.user.email}}</td>
+                  </tr>
+                  <tr>
+                    <td>Chú thích</td>
+                    <td>Nâng cấp tài khoản</td>
+                  </tr>
+                  <tr>
+                    <td>Loại tiền</td>
+                    <td>Việt Nam Đồng</td>
+                  </tr>
+                  <tr>
+                    <td>Tổng tiền</td>
+                    <td>100.000 VND</td>
+                  </tr>
+                  <tr>
+                    <td>Nội dung</td>
+                    <td>
+                      {{request.user.username}} Thanh toán để nâng cấp tài khoản
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <span style="color: red"
+                >Bạn vui lòng chuyển khoản cho số tài khoản phía dưới với nội
+                dung ghi như biểu mẫu phía trên</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="payment-method">
+      <div class="row">
+        <div
+          class="offset-margin col-lg-12 col-md-8 col-sm-12 col-12 grid-margin stretch-card"
+        >
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Phương thức thanh toán</h4>
+
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td>Tên ngân hàng</td>
+                    <td>MB Bank</td>
+                  </tr>
+                  <tr>
+                    <td>Chủ tài khoản</td>
+                    <td>Chu Minh Hiếu</td>
+                  </tr>
+                  <tr>
+                    <td>Số Tài khoản</td>
+                    <td>0916262033</td>
+                  </tr>
+                  <span style="color: red">
+                    Vui lòng bạn chuyển khoản xong mới nhấp vào nút hoàn tất
+                    nâng cấp để chúng tôi có thể xử lý dễ dàng hơn
+                  </span>
+                  <tr>
+                    <form method="POST" action="/user/checkout/">
+                      {% csrf_token %}
+                      <td colspan="2">
+                        <button type="submit" class="btn btn-primary"
+                          >Hoàn tất nâng cấp tài khoản</button
+                        >
+                      </td>
+                    </form>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
